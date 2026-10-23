@@ -2,37 +2,28 @@
 // CARDS
 // ==================================================================================
 const CARDS = [
-  { id:1, title:"TITULO1",
+  { id:1, title:"Infografia Digital",
     desc:"Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit",
-    img:"", link:"#TITULO" },
-  { id:2, title:"TITULO2",
+    img:"", link1:"https://canva.link/1t3aa4zwtb4jd5u", link2:"pdf/Infografia Digital - Energia Solar - Bais, Facundo Daniel - Villacorta, Federico Roman.pdf" },
+  { id:2, title:"Podcast",
     desc:"Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit",
-    img:"", link:"#TITULO" },
-  { id:3, title:"TITULO3",
+    img:"", link1:"https://open.spotify.com/episode/5bMLVEvmzW6Cw6uhvpaeZD", link2:"pdf/Podcast - Energia Solar - Bais, Facundo Daniel - Villacorta, Federico Roman.pdf" },
+  { id:3, title:"Resvista Digital",
     desc:"Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit",
-    img:"", link:"#TITULO" },
-  { id:4, title:"TITULO4",
+    img:"", link1:"https://simplebooklet.com/nordicnaturetravelmagazine7", link2:"pdf/Revista Digital - Energia Solar - Bais, Facundo Daniel - Villacorta, Federico Roman.pdf" },
+  { id:4, title:"Stream",
     desc:"Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit",
-    img:"", link:"#TITULO" },
-  { id:5, title:"TITULO5",
+    img:"", link1:"https://www.youtube.com/watch?v=v6UMz-CR8mA", link2:"pdf/Stream - Energia Solar - Bais, Facundo Daniel - Villacorta, Federico Roman.pdf" },
+  { id:5, title:"Animacion Digital",
     desc:"Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit",
-    img:"", link:"#TITULO" },
-  { id:6, title:"TITULO6",
-    desc:"Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit",
-    img:"", link:"#TITULO" },
-  { id:7, title:"TITULO7",
-    desc:"Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit",
-    img:"", link:"#TITULO" },
-  { id:8, title:"TITULO8",
-    desc:"Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit",
-    img:"https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=800&q=75", link:"#neuro" },
+    img:"", link1:"https://view.genially.com/6a852d12e64ea0d1bceef1b5", link2:"pdf/Animación Digital - Energia Solar - Bais, Facundo Daniel - Villacorta, Federico Roman.pdf" },
 ];
 
 // ==================================================================================
 // CONFIGURACIÓN Y VARIABLES
 // ==================================================================================
 const CARD_W     = 240;
-const EXPANDED_W = 420;
+const getExpandedWidth = () => Math.min(window.innerWidth * 0.8, 1000);
 const CARD_GAP   = 22;   
 const SPEED      = 0.4;  
 
@@ -45,6 +36,11 @@ let activeCard    = null;
 let isAnimating   = false;
 let halfSetWidth  = 0; 
 let isHovered     = false;
+let isRecentering = false;
+let tweenId       = 0;
+let mouseX        = 0;
+let mouseY        = 0;
+let mouseInside   = false;
 
 // ==================================================================================
 // HTML
@@ -55,6 +51,7 @@ function buildCards(dataset, isClone) {
     card.className = 'card';
     card.dataset.id = data.id;
     if (isClone) card.dataset.clone = '1';
+    
 
     card.innerHTML = `
       <div class="card-img-wrap">
@@ -63,11 +60,15 @@ function buildCards(dataset, isClone) {
       <div class="card-content">
         <h2>${data.title}</h2>
         <p>${data.desc}</p>
-        <a class="go-btn" href="${data.link}">
-          VER MÁS
-        </a>
+          <div class="btn-row">
+            <a class="go-btn" href="${data.link1}" target="_blank" rel="noreferrer">VER TRABAJO</a>
+            <a class="go-btn" href="${data.link2}" target="_blank" rel="noreferrer">INFORME</a>
+          </div>
       </div>
-    `;
+
+
+      <div class="card-glow"></div>
+      `;
 
     // Interacción Mouse
     card.addEventListener('mousedown', (e) => {
@@ -98,9 +99,13 @@ function buildCards(dataset, isClone) {
 // Clon de las tarjetas
 buildCards(CARDS, false);
 buildCards(CARDS, true);
+buildCards(CARDS, true);
 
-const allCards = track.querySelectorAll('.card');
-halfSetWidth = CARDS.length * (CARD_W + CARD_GAP);
+const allCards = track.querySelectorAll('.card');  
+halfSetWidth = CARDS.length * (CARD_W + CARD_GAP); 
+
+offset = halfSetWidth;                             // ← arranca en el set del medio
+track.style.transform = `translateX(${-offset}px)`;// ← lo aplica antes del primer frame
 
 // ==================================================================================
 // ANIMACIÓN (LOOP)
@@ -128,14 +133,35 @@ function updateCenterCards() {
   });
 }
 
+function updateGlow() {
+  allCards.forEach(card => {
+    const r = card.getBoundingClientRect();
+    card.style.setProperty('--mx', `${mouseX - r.left}px`);
+    card.style.setProperty('--my', `${mouseY - r.top}px`);
+  });
+}
+
+wrapper.addEventListener('mouseenter', () => { mouseInside = true; });
+wrapper.addEventListener('mouseleave', () => { mouseInside = false; });
+wrapper.addEventListener('mousemove', e => {
+  mouseX = e.clientX;
+  mouseY = e.clientY;
+  updateGlow();
+});
+
 function animate() {
-  if (!activeCard && !isHovered) {
+  if (!activeCard && !isHovered && !isRecentering) {
     offset += SPEED;
-    if (offset >= halfSetWidth) offset -= halfSetWidth;
+    if (offset >= halfSetWidth * 2) offset -= halfSetWidth;
+    if (offset < halfSetWidth)      offset += halfSetWidth;
     track.style.transform = `translateX(${-offset}px)`;
     
     updateCenterCards();
   }
+
+  //CAMBIO
+  if (mouseInside) updateGlow();   
+
   raf = requestAnimationFrame(animate);
 }
 
@@ -161,43 +187,9 @@ function expand(card) {
     if (c !== card) c.classList.add('dimmed');
   });
 
+  isRecentering = false;
   card.classList.add('active');
-  centerCard(card);
-
-  setTimeout(() => { isAnimating = false; }, 600);
-}
-
-function centerCard(card) {
-  const cardCenter = card.offsetLeft + (EXPANDED_W / 2);
-  const wrapperCenter = wrapper.offsetWidth / 2;
-  const target = cardCenter - wrapperCenter;
-
-  const startOffset = offset;
-  const delta = target - startOffset;
-  const duration = 500; 
-  const start = performance.now();
-
-  function step(now) {
-    const t = Math.min((now - start) / duration, 1);
-    const eased = 1 - Math.pow(1 - t, 3);
-    offset = startOffset + delta * eased;
-    track.style.transform = `translateX(${-offset}px)`;
-    
-    updateCenterCards();
-    
-    if (t < 1) requestAnimationFrame(step);
-  }
-  requestAnimationFrame(step);
-}
-
-function collapse() {
-  if (!activeCard || isAnimating) return;
-  isAnimating = true;
-
-  activeCard.classList.remove('active');
-  allCards.forEach(c => c.classList.remove('dimmed'));
-  track.classList.add('no-active');
-  activeCard = null;
+  centerCard(card, getExpandedWidth());
 
   setTimeout(() => { isAnimating = false; }, 600);
 }
@@ -212,3 +204,47 @@ document.addEventListener('mousedown', e => {
     if (!activeCard.contains(e.target)) collapse();
   }
 });
+
+
+function tweenOffsetTo(target, duration = 500, onDone) {
+  const myId = ++tweenId;            // cancela cualquier tween anterior
+  const startOffset = offset;
+  const delta = target - startOffset;
+  const start = performance.now();
+
+  function step(now) {
+    if (myId !== tweenId) return;    // otro tween tomó el control
+    const t = Math.min((now - start) / duration, 1);
+    const eased = 1 - Math.pow(1 - t, 3);
+    offset = startOffset + delta * eased;
+    track.style.transform = `translateX(${-offset}px)`;
+    updateCenterCards();
+
+    if (t < 1) requestAnimationFrame(step);
+    else if (onDone) onDone();
+  }
+  requestAnimationFrame(step);
+}
+
+function centerCard(card, width, onDone) {
+  const target = card.offsetLeft + (width / 2) - (wrapper.offsetWidth / 2);
+  tweenOffsetTo(target, 500, onDone);
+}
+
+function collapse() {
+  if (!activeCard || isAnimating) return;
+  isAnimating = true;
+
+  const card = activeCard;           // guardamos la referencia
+  card.classList.remove('active');
+  allCards.forEach(c => c.classList.remove('dimmed'));
+  track.classList.add('no-active');
+  activeCard = null;
+
+  // Re-centramos la carta con su ancho normal y recién después seguimos el loop
+  isRecentering = true;
+  isHovered = false;
+  centerCard(card, CARD_W, () => { isRecentering = false; });
+
+  setTimeout(() => { isAnimating = false; }, 600);
+}

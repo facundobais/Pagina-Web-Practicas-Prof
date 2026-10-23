@@ -9,11 +9,11 @@
   --accent:    #C8A96E;
   --accent-dim:#8a7244;
   --text:      #E8E8F0;
-  --muted:     #7a7a8e;
+  --muted:     #9393a7;
   --radius:    18px;
   --card-w:    240px;
   --card-h:    320px;
-  --expanded-w:420px;
+  --expanded-w: min(80vw, 1000px);
   --expanded-h:520px;
 }
 
@@ -103,11 +103,20 @@ header p {
   font-size: 0.85rem;
   font-weight: 600;
   letter-spacing: 0.1em;
-  text-transform: uppercase;
-  transition: color 0.3s ease;
+  transition: color 0.3s ease, transform 0.2s, filter 0.2s;
 }
 
-.nav-link:hover { color: var(--accent); }
+.nav-link:hover {
+  color: var(--accent);
+  transform: scale(1.02);
+  filter: brightness(1.1);
+}
+
+.nav-link:active {
+  color: var(--accent);
+  transform: scale(0.98);
+  filter: brightness(0.9);
+}
 
 /* Logo Animado */
 .nav-logo {
@@ -128,16 +137,17 @@ header p {
    ESTRUCTURA DEL CARRUSEL
    ================================================================================== */
 .carousel-wrapper {
-  width: 100%;
+  width: 85%;
   position: relative;
+  margin: 0 auto;
   height: calc(var(--expanded-h) + 60px);
   display: flex;
   align-items: center;
   overflow: hidden;
   
   /* ESTA ES LA MAGIA: Borra suavemente los 140px de cada extremo */
-  -webkit-mask-image: linear-gradient(to right, transparent, black 300px, black calc(100% - 300px), transparent);
-  mask-image: linear-gradient(to right, transparent, black 300px, black calc(100% - 300px), transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 150px, black calc(100% - 150px), transparent);
+  mask-image: linear-gradient(to right, transparent, black 150px, black calc(100% - 150px), transparent);
 }
 
 .carousel-track {
@@ -161,7 +171,8 @@ header p {
   flex-shrink: 0;
   cursor: pointer;
   position: relative;
-  overflow: hidden;
+  /* overflow: hidden; */
+  overflow: visible;
   transition:
     width 0.55s cubic-bezier(0.34, 1.1, 0.64, 1),
     height 0.55s cubic-bezier(0.34, 1.1, 0.64, 1),
@@ -174,7 +185,7 @@ header p {
 }
 
 /* Tarjeta inactiva o alejada */
-.card.dimmed { filter: brightness(0.35) saturate(0.4); transform: scale(0.93); }
+.card.dimmed { filter: brightness(0.35) saturate(0.4) blur(2px); transform: scale(0.93); }
 
 /* Hover general del carrusel */
 .no-active .card:hover {
@@ -188,9 +199,43 @@ header p {
   width: var(--expanded-w);
   height: var(--expanded-h);
   filter: brightness(1) saturate(1);
-  box-shadow: 0 30px 90px rgba(0,0,0,0.65), 0 0 0 2px rgba(200,169,110,0.35);
+  box-shadow: 0 0 20px 4px rgba(255, 210, 70, 0.45), 0 30px 90px rgba(0,0,0,0.65), 0 0 0 2px rgba(200,169,110,0.35);
   cursor: default;
   z-index: 10;
+}
+
+
+/* Brillo por fuera del borde, solo cerca del mouse */
+.card-glow {
+  position: absolute;
+  inset: -20px;                 /* margen extra para que entre la sombra */
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+
+  /* la luz solo aparece alrededor del mouse */
+  -webkit-mask-image: radial-gradient(
+    circle 100px at calc(var(--mx, -999px) + 40px) calc(var(--my, -999px) + 40px),
+    #000 0%, transparent 100%
+  );
+  mask-image: radial-gradient(
+    circle 100px at calc(var(--mx, -999px) + 40px) calc(var(--my, -999px) + 40px),
+    #000 0%, transparent 100%
+  );
+}
+
+/* Un rectángulo del tamaño exacto de la carta: su sombra solo sale hacia afuera */
+.card-glow::before {
+  content: '';
+  position: absolute;
+  inset: 20px;
+  border-radius: var(--radius);
+  box-shadow: 0 0 10px 4px rgba(255, 210, 70, 0.75);
+}
+
+.carousel-wrapper:hover .no-active .card-glow {
+  opacity: 1;
 }
 
 /* Contenedor de la foto */
@@ -272,12 +317,12 @@ header p {
   margin-bottom: 0.5rem; 
 }
 
-/* Botón "Ver Más" */
+/* Botónes cards */
 .go-btn {
   display: flex; 
   align-items: center;
   justify-content: center; 
-  width: 100%; 
+  width: 50%; 
   margin-top: 0.5rem; 
   background: var(--accent);
   color: #0D0D12;
@@ -295,14 +340,33 @@ header p {
   flex-shrink: 0;
 }
 
-.go-btn:hover { 
-  background: #e0be7f; 
-  transform: translateY(-2px); 
+.go-btn:hover {
+  transform: scale(1.02);
+  filter: brightness(1.1);
 }
+
+.go-btn:active {
+  transform: scale(0.98);
+  filter: brightness(0.9);
+}
+
+
+.btn-row {
+  display: flex;
+  gap: 12px;
+}
+
+.btn-row .go-btn {
+  flex: 1;          /* cada botón ocupa la mitad */
+  text-align: center;
+}
+
 
 /* ==================================================================================
    ACCESIBILIDAD Y RESPONSIVE
    ================================================================================== */
-@media (prefers-reduced-motion: reduce) {
-  .card, .card-content { transition: none !important; }
+   
+   @media (prefers-reduced-motion: reduce) {
+  .card { transition-duration: 0.4s !important; }
+  .card-content { transition-duration: 0.15s !important; transition-delay: 0s !important; }
 }
