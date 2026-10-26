@@ -3,20 +3,20 @@
 // ==================================================================================
 const CARDS = [
   { id:1, title:"Infografia Digital",
-    desc:"Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit",
-    img:"", link1:"https://canva.link/1t3aa4zwtb4jd5u", link2:"pdf/Infografia Digital - Energia Solar - Bais, Facundo Daniel - Villacorta, Federico Roman.pdf" },
+    desc:"Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit", 
+    img:"img/infodigitalportada.jpg", link2:"pdf/Infografia Digital - Energia Solar - Bais, Facundo Daniel - Villacorta, Federico Roman.pdf" },
   { id:2, title:"Podcast",
     desc:"Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit",
-    img:"", link1:"https://open.spotify.com/episode/5bMLVEvmzW6Cw6uhvpaeZD", link2:"pdf/Podcast - Energia Solar - Bais, Facundo Daniel - Villacorta, Federico Roman.pdf" },
+    img:"img/podcastportada.jpg", link1:"https://open.spotify.com/episode/5bMLVEvmzW6Cw6uhvpaeZD", link2:"pdf/Podcast - Energia Solar - Bais, Facundo Daniel - Villacorta, Federico Roman.pdf" },
   { id:3, title:"Resvista Digital",
     desc:"Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit",
-    img:"", link1:"https://simplebooklet.com/nordicnaturetravelmagazine7", link2:"pdf/Revista Digital - Energia Solar - Bais, Facundo Daniel - Villacorta, Federico Roman.pdf" },
+    img:"img/revistadigitalportada.jpg", link1:"https://simplebooklet.com/nordicnaturetravelmagazine7", link2:"pdf/Revista Digital - Energia Solar - Bais, Facundo Daniel - Villacorta, Federico Roman.pdf" },
   { id:4, title:"Stream",
     desc:"Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit",
-    img:"", link1:"https://www.youtube.com/watch?v=v6UMz-CR8mA", link2:"pdf/Stream - Energia Solar - Bais, Facundo Daniel - Villacorta, Federico Roman.pdf" },
+    img:"img/streamportada.jpg", link1:"https://www.youtube.com/watch?v=v6UMz-CR8mA", link2:"pdf/Stream - Energia Solar - Bais, Facundo Daniel - Villacorta, Federico Roman.pdf" },
   { id:5, title:"Animacion Digital",
     desc:"Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit",
-    img:"", link1:"https://view.genially.com/6a852d12e64ea0d1bceef1b5", link2:"pdf/Animación Digital - Energia Solar - Bais, Facundo Daniel - Villacorta, Federico Roman.pdf" },
+    img:"img/animaciondigitalportada.jpg", link1:"https://view.genially.com/6a852d12e64ea0d1bceef1b5", link2:"pdf/Animación Digital - Energia Solar - Bais, Facundo Daniel - Villacorta, Federico Roman.pdf" },
 ];
 
 // ==================================================================================
