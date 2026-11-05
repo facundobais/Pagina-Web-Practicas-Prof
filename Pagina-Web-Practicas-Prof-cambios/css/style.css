@@ -1,0 +1,498 @@
+/* ==================================================================================
+   RESET Y VARIABLES GLOBALES
+   ================================================================================== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+@font-face {
+  font-family: 'Extenda';
+  src: url('../fonts/Extenda-40-Hecto-trial.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Aileron';
+  src: url('../fonts/aileron.regular.ttf') format('truetype'),
+      url('../fonts/aileron.bold.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root { /*GLOBAL*/
+  --bg:        #021024;
+  --card-bg:   #16161E;
+  --accent:    #C8A96E;
+  --accent-dim:#8a7244;
+  --text:      #E8E8F0;
+  --muted:     #9393a7;
+  --radius:    18px;
+  --card-w:    240px;
+  --card-h:    320px;
+  --expanded-w: min(80vw, 1000px);
+  --expanded-h:520px;
+}
+
+body {
+  background:
+    radial-gradient(
+        ellipse 140% 60% at 50% 0%,
+        #18406f 0%,
+        #0b2c52 20%,
+        #04182f 45%,
+        #021024 65%,
+        #010811 82%,
+        #000000 100%
+    );
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow-x: hidden;
+  padding: 2rem 0;
+}
+
+/* ==================================================================================
+   TIPOGRAFÍA Y CABECERA
+   ================================================================================== */
+header {
+  text-align: center;
+  margin-top: 11rem; 
+  margin-bottom: 3rem;
+  padding: 0 1.5rem;
+}
+
+header h1 {
+  font-family: 'Extenda', sans-serif;
+  font-size: clamp(4rem, 9vw, 8rem); 
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  line-height: 1;
+  text-transform: uppercase;
+
+  display: inline-block; 
+  transform: scaleY(1.4); /* Estira la fuente */
+  transform-origin: bottom; 
+  margin-bottom: 1.5rem;
+}
+
+header h1 span { color: var(--accent); }
+
+header p {
+  font-family: 'Aileron', sans-serif;
+  color: var(--muted);
+  font-size: 1.1rem; 
+  font-weight: 300;
+  letter-spacing: 0.02em;
+  margin-top: 0; 
+  max-width: 1000px; 
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.6;
+}
+
+header p strong {
+  font-weight: 700;
+}
+
+/* ==================================================================================
+                    NAVBAR
+   ================================================================================== */
+.navbar {
+  position: absolute; 
+  top: 2.5rem; 
+  left: 50%; 
+  transform: translateX(-50%); 
+  width: max-content; 
+  
+  height: 50px; 
+  padding: 0 4.5rem; 
+  
+  background: #1e293b; 
+  border-radius: 50px; 
+  
+  border-bottom: 5px solid #e2e2e2; 
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 0 4px 12px rgba(137, 207, 240, 0.15); 
+  
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  grid-template-rows: 50px; 
+  align-items: center; 
+  z-index: 100; 
+}
+
+.nav-side { display: flex; gap: 2.5rem; }
+.nav-left { justify-content: flex-end; padding-right: 3.5rem; }
+.nav-right { justify-content: flex-start; padding-left: 3.5rem; }
+.nav-center { display: flex; justify-content: center; align-items: center;}
+
+.nav-link {
+  color: var(--text);
+  text-decoration: none;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  transition: color 0.3s ease, transform 0.2s, filter 0.2s;
+}
+
+.nav-link:hover {
+  color: var(--accent);
+  transform: scale(1.02);
+  filter: brightness(1.1);
+}
+
+.nav-link:active {
+  color: var(--accent);
+  transform: scale(0.98);
+  filter: brightness(0.9);
+}
+
+/* Logo Animado */
+.nav-logo {
+  height: 90px; 
+  width: auto;
+  filter: drop-shadow(0 0 6px rgba(200, 169, 110, 0.4)); 
+  transition: filter 0.3s ease, transform 0.3s ease;
+}
+
+.nav-logo:hover {
+  filter: drop-shadow(0 0 12px rgba(200, 169, 110, 0.8));
+  transform: scale(1.05);
+}
+
+.nav-logo path { stroke-width: 6; }
+
+/* ==================================================================================
+   ESTRUCTURA DEL CARRUSEL
+   ================================================================================== */
+.carousel-wrapper {
+  width: 85%;
+  position: relative;
+  margin: 0 auto;
+  height: calc(var(--expanded-h) + 60px);
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  
+  /* ESTA ES LA MAGIA: Borra suavemente los 140px de cada extremo */
+  -webkit-mask-image: linear-gradient(to right, transparent, black 150px, black calc(100% - 150px), transparent);
+  mask-image: linear-gradient(to right, transparent, black 150px, black calc(100% - 150px), transparent);
+}
+
+.carousel-track {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  padding: 0 140px;
+  width: max-content;
+  position: relative;
+  will-change: transform;
+}
+
+/* ==================================================================================
+   TARJETAS (CARDS)
+   ================================================================================== */
+.card {
+  width: var(--card-w, 240px);
+  height: var(--card-h);
+  border-radius: var(--radius);
+  background: var(--card-bg);
+  flex-shrink: 0;
+  cursor: pointer;
+  position: relative;
+  /* overflow: hidden; */
+  overflow: visible;
+  transition:
+    width 0.55s cubic-bezier(0.34, 1.1, 0.64, 1),
+    height 0.55s cubic-bezier(0.34, 1.1, 0.64, 1),
+    filter 0.4s ease,
+    opacity 0.4s ease,
+    box-shadow 0.4s ease,
+    transform 0.55s cubic-bezier(0.34, 1.1, 0.64, 1);
+  filter: brightness(0.7) saturate(0.75);
+  user-select: none;
+}
+
+/* Tarjeta inactiva o alejada */
+.card.dimmed { filter: brightness(0.35) saturate(0.4) blur(2px); transform: scale(0.93); }
+
+/* Hover general del carrusel */
+.no-active .card:hover {
+  filter: brightness(0.92) saturate(1);
+  transform: scale(1.04) translateY(-4px);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.45);
+}
+
+/* Tarjeta expandida */
+.card.active {
+  width: var(--expanded-w, min(80vw, 1000px));
+  height: var(--expanded-h);
+  filter: brightness(1) saturate(1);
+  box-shadow: 0 0 20px 4px rgba(255, 210, 70, 0.45), 0 30px 90px rgba(0,0,0,0.65), 0 0 0 2px rgba(200,169,110,0.35);
+  cursor: default;
+  z-index: 10;
+}
+
+
+/* Brillo por fuera del borde, solo cerca del mouse */
+.card-glow {
+  position: absolute;
+  inset: -20px;                 /* margen extra para que entre la sombra */
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+
+  /* la luz solo aparece alrededor del mouse */
+  -webkit-mask-image: radial-gradient(
+    circle 100px at calc(var(--mx, -999px) + 40px) calc(var(--my, -999px) + 40px),
+    #000 0%, transparent 100%
+  );
+  mask-image: radial-gradient(
+    circle 100px at calc(var(--mx, -999px) + 40px) calc(var(--my, -999px) + 40px),
+    #000 0%, transparent 100%
+  );
+}
+
+/* Un rectángulo del tamaño exacto de la carta: su sombra solo sale hacia afuera */
+.card-glow::before {
+  content: '';
+  position: absolute;
+  inset: 20px;
+  border-radius: var(--radius);
+  box-shadow: 0 0 10px 4px rgba(255, 210, 70, 0.75);
+}
+
+.carousel-wrapper:hover .no-active .card-glow {
+  opacity: 1;
+}
+
+/* Contenedor de la foto */
+.card-img-wrap {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: border-radius 0.55s ease;
+}
+
+.card.active .card-img-wrap {
+  height: 100% !important;
+  border-radius: var(--radius);
+}
+
+.card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  pointer-events: none;
+  transition: transform 0.6s ease;
+}
+
+.card:not(.active):hover .card-img { transform: scale(1.05); }
+
+/* Contenido de texto y Glassmorphism */
+.card-content {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 60%; 
+  border-radius: 0 0 var(--radius) var(--radius);
+  padding: 1.5rem 1.5rem 2rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end; 
+  gap: 0.8rem;
+  opacity: 0;
+  transform: translateY(15px);
+  transition: opacity 0.3s ease 0.2s, transform 0.3s ease 0.2s;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.card.active .card-content {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: all;
+}
+
+.card-content::before {
+  content: '';
+  position: absolute;
+  inset: 0; 
+  z-index: -1; 
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px); 
+  background: linear-gradient(to top, rgba(13, 13, 18, 0.45) 15%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to top, black 45%, transparent 100%);
+  mask-image: linear-gradient(to top, black 45%, transparent 100%);
+  border-radius: 0 0 var(--radius) var(--radius);
+}
+
+.card-content h2 {
+  font-size: 1.3rem; 
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--text);
+  text-shadow: 0 2px 4px rgba(0,0,0,0.5); 
+}
+
+.card-content p {
+  color: #c4c4d4; 
+  font-size: 0.85rem;
+  line-height: 1.65;
+  font-weight: 300;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+  margin-bottom: 0.5rem; 
+}
+
+/* Botónes cards */
+.go-btn {
+  display: flex; 
+  align-items: center;
+  justify-content: center; 
+  width: 50%; 
+  margin-top: 0.5rem; 
+  background: var(--accent);
+  color: #0D0D12;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8rem; 
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 0.8rem 1.15rem; 
+  border-radius: 50px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+  flex-shrink: 0;
+}
+
+.go-btn:hover {
+  transform: scale(1.02);
+  filter: brightness(1.1);
+}
+
+.go-btn:active {
+  transform: scale(0.98);
+  filter: brightness(0.9);
+}
+
+
+.btn-row {
+  display: flex;
+  gap: 12px;
+}
+
+.btn-row .go-btn {
+  flex: 1;          /* cada botón ocupa la mitad */
+  text-align: center;
+}
+
+.nav-arrow{
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%) scale(0.8);
+  width: 52px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 1px solid rgba(201, 169, 110, 0.4);
+  background: rgba(13, 13, 18 ,0.7);
+  backdrop-filter: blur(6px);
+  color: var(--accent);
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s, transform 0.2s, background 0.2s, color 0.2s;
+  z-index: 50;
+}
+
+.nav-prev {
+  left: calc(50% - var(--expanded-w) / 2 - 52px - 16px);
+  right: auto;
+}
+.nav-next {
+  left: calc(50% + var(--expanded-w) / 2 + 16px);
+  right: auto;
+}
+
+body.card-open .nav-arrow{
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(-50%) scale(1);
+}
+
+body.card-open .nav-arrow:hover{
+  background-color: var(--accent);
+  color:#0D0D12;
+}
+
+body.card-open .nav-arrow:active{
+  transform: translateY(-50%) scale(0.92);
+}
+
+/* ==================================================================================
+   ACCESIBILIDAD Y RESPONSIVE
+   ================================================================================== */
+   
+@media (prefers-reduced-motion: reduce) {
+  .card { transition-duration: 0.4s !important; }
+  .card-content { transition-duration: 0.15s !important; transition-delay: 0s !important; }
+}
+
+@media (max-width: 600px) {
+  body { padding: 1rem 0; }
+
+  .navbar { padding: 0 1rem; top: 1.2rem; }
+  .nav-side { gap: 1rem; }
+  .nav-left  { padding-right: 2.2rem; }
+  .nav-right { padding-left: 2.2rem; }
+  .nav-link  { font-size: 0.65rem; letter-spacing: 0.06em; }
+  .nav-logo  { height: 70px; }
+
+  header { margin-top: 7rem; margin-bottom: 1.5rem; }
+  header h1 { font-size: clamp(2.6rem, 14vw, 4rem); }
+  header p  { font-size: 0.9rem; }
+
+  .carousel-wrapper {
+    width: 100%;
+    -webkit-mask-image: linear-gradient(to right, transparent, black 40px, black calc(100% - 40px), transparent);
+    mask-image: linear-gradient(to right, transparent, black 40px, black calc(100% - 40px), transparent);
+  }
+  .carousel-track { padding: 0 20px; }
+
+  .card-content { height: auto; padding: 1.2rem; }
+  .btn-row { flex-direction: column; }
+  .btn-row .go-btn { width: 100%; }
+
+  .nav-arrow {
+    top: auto;
+    bottom: 1rem;
+    width: 46px;
+    height: 46px;
+    transform: scale(0.8);
+  }
+}
+
+@media (max-width: 700px) {
+  .nav-arrow {
+    top: auto;
+    bottom: 1rem;
+    width: 46px;
+    height: 46px;
+    transform: scale(0.8);
+  }
+  .nav-prev { left: calc(50% - 58px); right: auto; }
+  .nav-next { left: calc(50% + 12px); right: auto; }
+
+  body.card-open .nav-arrow        { transform: scale(1); }
+  body.card-open .nav-arrow:active { transform: scale(0.92); }
+}
