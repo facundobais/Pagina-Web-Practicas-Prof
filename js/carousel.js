@@ -246,11 +246,11 @@ function centerCard(card, width, onDone) {
 }
 
 function centerCardOnScreen(card) {
-  const rect = card.getBoundingClientRect();
-  const cardCenterY = rect.top + window.scrollY + rect.height / 2;
-  const target = cardCenterY - window.innerHeight / 2;
+  //const rect = card.getBoundingClientRect();
+  //const cardCenterY = rect.top + window.scrollY + rect.height / 2;
+  //const target = cardCenterY - window.innerHeight / 2;
 
-  window.scrollTo({top: Math.max(0, target), behavior: 'smooth'})
+  //window.scrollTo({top: Math.max(0, target), behavior: 'smooth'})
 }
 
 function cardLeft(card) {
