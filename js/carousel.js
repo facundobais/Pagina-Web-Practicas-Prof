@@ -3,19 +3,19 @@
 // ==================================================================================
 const CARDS = [
   { id:1, title:"Infografia Digital",
-    desc:"Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit", 
-    img:"img/infodigitalportada.jpg",link1:"https://canva.link/1t3aa4zwtb4jd5u", link2:"pdf/Infografia Digital - Energia Solar - Bais, Facundo Daniel - Villacorta, Federico Roman.pdf" },
+    desc:"Un resumen visual de los conceptos principales de la energía solar, cómo funciona, qué beneficios ofrece y qué posibilidades tiene a futuro.", 
+    img:"img/infodigitalportada.jpg",link1:"https://canva.link/oyg13sts4a4rykw", link2:"pdf/Infografia Digital - Energia Solar - Bais, Facundo Daniel - Villacorta, Federico Roman.pdf" },
   { id:2, title:"Podcast",
-    desc:"Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit",
+    desc:"Un episodio donde hablamos sobre el impacto de la energía solar hoy en día y aclaramos algunos mitos sobre su uso.",
     img:"img/podcastportada.jpg", link1:"https://open.spotify.com/episode/5bMLVEvmzW6Cw6uhvpaeZD", link2:"pdf/Podcast - Energia Solar - Bais, Facundo Daniel - Villacorta, Federico Roman.pdf" },
   { id:3, title:"Revista Digital",
-    desc:"Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit",
+    desc:"Una revista digital con artículos sobre tecnología fotovoltaica, nuevos avances en paneles solares y el futuro de las energías limpias.",
     img:"img/revistadigitalportada.jpg", link1:"https://simplebooklet.com/nordicnaturetravelmagazine7", link2:"pdf/Revista Digital - Energia Solar - Bais, Facundo Daniel - Villacorta, Federico Roman.pdf" },
   { id:4, title:"Stream",
-    desc:"Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit",
+    desc:"Una grabación de nuestra presentación, donde compartimos las conclusiones del trabajo y analizamos qué tan viable es la energía solar.",
     img:"img/streamportada.jpg", link1:"https://www.youtube.com/watch?v=v6UMz-CR8mA", link2:"pdf/Stream - Energia Solar - Bais, Facundo Daniel - Villacorta, Federico Roman.pdf" },
   { id:5, title:"Animacion Digital",
-    desc:"Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit",
+    desc:"Una animación que muestra cómo la luz del sol se transforma en electricidad, de forma visual y fácil de entender.",
     img:"img/animaciondigitalportada.jpg", link1:"https://view.genially.com/6a852d12e64ea0d1bceef1b5", link2:"pdf/Animación Digital - Energia Solar - Bais, Facundo Daniel - Villacorta, Federico Roman.pdf" },
 ];
 

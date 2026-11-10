@@ -1,0 +1,138 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+@font-face {
+  font-family: 'Extenda';
+  src: url('../fonts/Extenda-40-Hecto-trial.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Aileron';
+  src: url('../fonts/aileron.regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Aileron';
+  src: url('../fonts/aileron.bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --bg:     #021024;
+  --accent: #C8A96E;
+  --text:   #E8E8F0;
+  --muted:  #9393a7;
+}
+
+html, body { height: 100%; }
+
+body {
+  background:
+    radial-gradient(
+      ellipse 140% 60% at 50% 0%,
+      #18406f 0%,
+      #0b2c52 20%,
+      #04182f 45%,
+      #021024 65%,
+      #010811 82%,
+      #000000 100%
+    );
+  background-attachment: fixed;
+  color: var(--text);
+  font-family: 'Aileron', 'Inter', sans-serif;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow-x: hidden;
+}
+
+main {
+  width: 100%;
+  min-height: 100vh;
+  padding: 6vh 6vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  gap: 3vh;
+}
+
+.kicker {
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(0.8rem, 1.6vw, 1.4rem);
+  font-weight: 600;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+h1 {
+  font-family: 'Extenda', 'Inter', sans-serif;
+  font-size: clamp(3.5rem, 13vw, 12rem);
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  line-height: 1;
+  text-transform: uppercase;
+  display: inline-block;
+  transform: scaleY(1.4);
+  transform-origin: bottom;
+  
+  /* Agregamos mucho margen superior para evitar que tape "PÁGINA WEB" */
+  margin-top: 8vh; 
+  margin-bottom: 2vh;
+}
+h1 span { color: var(--accent); }
+
+.divider {
+  width: min(160px, 30vw);
+  height: 2px;
+  background: var(--accent);
+  border: 0;
+  opacity: 0.8;
+}
+
+.authors {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+  font-size: clamp(1.2rem, 2.6vw, 2.4rem);
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: 0.02em;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6em;
+  font-size: clamp(0.95rem, 1.8vw, 1.6rem);
+  color: var(--muted);
+  letter-spacing: 0.02em;
+  line-height: 1.4;
+}
+.info .institute { color: var(--text); font-weight: 700; }
+.info .highlight { color: var(--accent); font-weight: 700; }
+
+.date {
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(0.8rem, 1.4vw, 1.2rem);
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+@media (max-width: 600px) {
+  main { padding: 5vh 5vw; }
+  .kicker { letter-spacing: 0.2em; }
+  .date { letter-spacing: 0.15em; }
+}
