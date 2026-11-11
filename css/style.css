@@ -44,14 +44,15 @@ body {
         #010811 82%,
         #000000 100%
     );
+  background-attachment: fixed;
   color: var(--text);
   font-family: 'Inter', sans-serif;
-  height: 100vh;           /* Forzamos la altura exacta de la ventana */
+  min-height: 100vh;           /* Forzamos la altura exacta de la ventana */
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  overflow: hidden;        /* Bloquea totalmente cualquier scroll */
+  justify-content: flex-start;
+  overflow-x: hidden;        /* Bloquea totalmente cualquier scroll */
   padding: 0;              /* Quitamos el padding vertical que sobraba */
 }
 
@@ -60,7 +61,7 @@ body {
    ================================================================================== */
 header {
   text-align: center;
-  margin-top: 15rem;        /* Lo reducimos a 6rem para subir un poco el título y dejar más espacio libre al centro */
+  margin-top: clamp(9rem, 20vh, 15rem);        /* Lo reducimos a 6rem para subir un poco el título y dejar más espacio libre al centro */
   margin-bottom: 1.5rem;   
   padding: 0 1.5rem;
 }
@@ -482,6 +483,18 @@ body.card-open .nav-arrow:active {
   .btn-row { flex-direction: column; }
   .btn-row .go-btn { width: 100%; }
 
+  :root {
+    --card-h: 240px;       /* antes 320px */
+    --expanded-h: 400px;   /* antes 520px */
+  }
+
+  .card-content { padding: 1rem; gap: 0.5rem; }
+  .card-content h2 { font-size: 1.1rem; }
+  .card-content p  { font-size: 0.78rem; line-height: 1.5; }
+
+  /* botones lado a lado en vez de apilados: ahorra mucho alto */
+  .btn-row { flex-direction: row; gap: 8px; }
+  .btn-row .go-btn { width: auto; flex: 1; padding: 0.65rem 0.5rem; font-size: 0.72rem; }
 }
 
 @media (max-width: 700px) {
@@ -507,5 +520,23 @@ body.card-open .nav-arrow:active {
   body.card-open .nav-arrow:hover {
     transform: translateY(-50%) scale(1.05);
     filter: brightness(1.1);
+  }
+}
+
+@media (max-height: 800px) {
+  header h1 {
+    font-size: clamp(3rem, 7vw, 5.5rem);
+    margin-bottom: 0.8rem;
+  }
+  header p {
+    font-size: 1rem;
+  }
+  .carousel-wrapper {
+    margin-top: -1rem;
+    height: calc(var(--expanded-h) + 20px);
+  }
+  :root {
+    --expanded-h: 440px;
+    --card-h: 280px;
   }
 }

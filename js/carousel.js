@@ -24,7 +24,7 @@ const CARDS = [
 // ==================================================================================
 let CARD_W     = 240;
 const isMobile = () => window.innerWidth <= 600;
-const getExpandedWidth = () => isMobile() ? window.innerWidth * 0.92 : Math.min(window.innerWidth * 0.8, 1000);
+const getExpandedWidth = () => isMobile() ? window.innerWidth * 0.84 : Math.min(window.innerWidth * 0.8, 1000);
 const CARD_GAP   = 22;   
 const SPEED      = 0.4;  
 
@@ -47,7 +47,7 @@ let mouseInside   = false;
 // HTML
 // ==================================================================================
 function applySizes(){
-  CARD_W = isMobile() ? Math.round(window.innerWidth * 0.62) : 240;
+  CARD_W = isMobile() ? Math.round(window.innerWidth * 0.5) : 240;
   const root= document.documentElement.style;
   root.setProperty('--card-w', CARD_W + 'px');
   root.setProperty('--expanded-w', getExpandedWidth() + 'px');
@@ -313,11 +313,3 @@ window.addEventListener('resize', () => {
     track.style.transform = `translateX(${-offset}px)`;
   }
 });
-
-let touchY = 0;
-  card.addEventListener('touchstart', e => { touchY = e.touches[0].clientY; }, { passive: true });
-  card.addEventListener('touchend', e => {
-    if (Math.abs(e.changedTouches[0].clientY - touchY) > 10) return; // fue un scroll
-    if (activeCard) { if (activeCard !== card) collapse(); return; }
-    if (!card.classList.contains('active')) expand(card);
-  });
